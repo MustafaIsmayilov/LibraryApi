@@ -1,5 +1,4 @@
-﻿using System;
-using LibraryApi.Persistence.Contexts;  // ✅ DbContext namespace-i
+﻿using LibraryApi.Persistence.Contexts;  // DbContext
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,19 +6,30 @@ var builder = WebApplication.CreateBuilder(args);
 // ✅ Connection string oxu
 var connectionString = builder.Configuration.GetConnectionString("Default");
 
-// ✅ DbContext-i DI container-ə əlavə et
+// ✅ DbContext
 builder.Services.AddDbContext<LibraryDbContext>(options =>
-    options.UseSqlServer(connectionString));
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+});
 
-// Add services to the container.
+// Add services to the container
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
