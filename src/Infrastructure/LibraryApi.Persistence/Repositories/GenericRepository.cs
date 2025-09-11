@@ -1,16 +1,17 @@
 ﻿using System.Linq.Expressions;
 using global::LibraryApi.Application.Abstracts.Repositories;
 using global::LibraryApi.Domain.Entities;
+using LibraryApi.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryApi.Persistence.Repositories;
 
 public class GenericRepository<T> : IRepository<T> where T : BaseEntity, new()
 {
-    private readonly DbContext _context;
+    private readonly LibraryDbContext _context;
     private readonly DbSet<T> _dbSet;
 
-    public GenericRepository(DbContext context)
+    public GenericRepository(LibraryDbContext context)
     {
         _context = context;
         _dbSet = _context.Set<T>();

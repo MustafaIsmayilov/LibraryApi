@@ -1,22 +1,22 @@
-﻿using LibraryApi.Persistence.Contexts;  // DbContext
+﻿using LibraryApi.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// 🔹 Connection string
 var connectionString = builder.Configuration.GetConnectionString("Default");
 
-builder.Services.AddControllers();
-builder.Services.AddDbContext<LibraryDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
-});
-
-
-
-var app = builder.Build();
+// 🔹 Add services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<LibraryDbContext>(options =>
+    options.UseSqlServer(connectionString)
+);
+
+var app = builder.Build();
+
+// 🔹 Middleware pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -25,8 +25,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
+
 

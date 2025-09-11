@@ -4,15 +4,16 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System;
 using LibraryApi.Application.Abstracts.Repositories;
+using LibraryApi.Persistence.Contexts;
 
 namespace LibraryApi.Persistence.Repositories;
 
 public class Repository<T> : IRepository<T> where T : BaseEntity, new()
 {
-    private readonly DbContext _context;
+    private readonly LibraryDbContext _context;
     private readonly DbSet<T> _dbSet;
 
-    public Repository(DbContext context)
+    public Repository(LibraryDbContext context)
     {
         _context = context;
         _dbSet = _context.Set<T>();

@@ -11,10 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Abstracts\Services\" />
-    <Folder Include="Dtos\" />
     <Folder Include="Shared\Settings\" />
-    <Folder Include="Shared\Responses\" />
     <Folder Include="Validations\" />
   </ItemGroup>
 
